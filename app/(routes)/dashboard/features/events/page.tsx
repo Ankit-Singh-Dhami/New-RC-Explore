@@ -27,6 +27,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import Link from "next/link";
 
 const EventCalendarPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -440,11 +441,13 @@ const EventCalendarPage = () => {
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-              <button className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
-                <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">Add Event</span>
-                <span className="sm:hidden">Add</span>
-              </button>
+              <Link href="/dashboard/features/events/add-event">
+                <button className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+                  <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Add Event</span>
+                  <span className="sm:hidden">Add</span>
+                </button>
+              </Link>
               <button className="px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
                 <Download className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">Export</span>

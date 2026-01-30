@@ -80,14 +80,6 @@ export const features = [
     category: "Academic",
     color: "green",
   },
-  {
-    title: "Library Portal",
-    subtitle: "Access digital library and research papers",
-    icon: Book,
-    link: "/dashboard/features/library-portal",
-    category: "Academic",
-    color: "green",
-  },
 
   // Campus Services
   {
@@ -114,14 +106,6 @@ export const features = [
     category: "Services",
     color: "purple",
   },
-  {
-    title: "College Email",
-    subtitle: "Access your official college email",
-    icon: Mail,
-    link: "/dashboard/features/college-email",
-    category: "Services",
-    color: "purple",
-  },
 
   // Career & Placement
   {
@@ -132,22 +116,6 @@ export const features = [
     category: "Career",
     color: "orange",
     badge: "Hot",
-  },
-  {
-    title: "Placement Portal",
-    subtitle: "Company drives and placement info",
-    icon: Briefcase,
-    link: "/dashboard/features/placement-portal",
-    category: "Career",
-    color: "orange",
-  },
-  {
-    title: "Resume Builder",
-    subtitle: "Create professional resumes",
-    icon: FileText,
-    link: "/dashboard/features/resume-builder",
-    category: "Career",
-    color: "orange",
   },
 
   // Campus Life
@@ -165,14 +133,6 @@ export const features = [
     subtitle: "Student achievements and awards",
     icon: Trophy,
     link: "/dashboard/features/achievement-gallery",
-    category: "Campus Life",
-    color: "pink",
-  },
-  {
-    title: "Sports Complex",
-    subtitle: "Book facilities and view schedules",
-    icon: Trophy,
-    link: "/dashboard/features/sports-complex",
     category: "Campus Life",
     color: "pink",
   },
@@ -194,33 +154,7 @@ export const features = [
     category: "Innovation",
     color: "indigo",
   },
-  {
-    title: "Student Polls",
-    subtitle: "Participate in campus decisions",
-    icon: BarChart,
-    link: "/dashboard/features/student-polls",
-    category: "Innovation",
-    color: "indigo",
-  },
 
-  // Technology & Tools
-  {
-    title: "AR Campus Tour",
-    subtitle: "Augmented reality navigation",
-    icon: Globe,
-    link: "/dashboard/features/ar-campus-tour",
-    category: "Technology",
-    color: "cyan",
-    badge: "Beta",
-  },
-  {
-    title: "Tools & Utilities",
-    subtitle: "Calculator, converters, and utilities",
-    icon: Wrench,
-    link: "/dashboard/features/tools-utilities",
-    category: "Technology",
-    color: "cyan",
-  },
   {
     title: "Useful Links",
     subtitle: "Important websites and resources",
@@ -230,46 +164,12 @@ export const features = [
     color: "cyan",
   },
 
-  // Administration
-  {
-    title: "Fee Payment",
-    subtitle: "Pay tuition and other fees online",
-    icon: CreditCard,
-    link: "/dashboard/features/fee-payment",
-    category: "Administration",
-    color: "gray",
-  },
-  {
-    title: "Leave Application",
-    subtitle: "Apply for leaves online",
-    icon: Calendar,
-    link: "/dashboard/features/leave-application",
-    category: "Administration",
-    color: "gray",
-  },
-  {
-    title: "Transcript Request",
-    subtitle: "Request official transcripts",
-    icon: FileText,
-    link: "/dashboard/features/transcript-request",
-    category: "Administration",
-    color: "gray",
-  },
-
   // Communication
   {
     title: "Push Notifications",
     subtitle: "Instant alerts and announcements",
     icon: Bell,
     link: "/dashboard/features/push-notifications",
-    category: "Communication",
-    color: "red",
-  },
-  {
-    title: "College Forum",
-    subtitle: "Discussion boards and Q&A",
-    icon: MessageSquare,
-    link: "/dashboard/features/college-forum",
     category: "Communication",
     color: "red",
   },
@@ -288,22 +188,6 @@ export const features = [
     subtitle: "Usage statistics and engagement",
     icon: BarChart,
     link: "/dashboard/features/user-analytics",
-    category: "Analytics",
-    color: "teal",
-  },
-  {
-    title: "Attendance Tracker",
-    subtitle: "View and track attendance records",
-    icon: Clock,
-    link: "/dashboard/features/attendance-tracker",
-    category: "Analytics",
-    color: "teal",
-  },
-  {
-    title: "Grade Analytics",
-    subtitle: "Performance analysis and trends",
-    icon: GraduationCapIcon,
-    link: "/dashboard/features/grade-analytics",
     category: "Analytics",
     color: "teal",
   },
