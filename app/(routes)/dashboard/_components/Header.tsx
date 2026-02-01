@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -31,18 +32,20 @@ const Header = ({ onMenuClick }: HeaderProps) => {
 
       <div className="flex items-center gap-4">
         {/* Notifications */}
-        <TooltipProvider delayDuration={100}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button className="p-2 rounded-full hover:bg-gray-100">
-                <Bell className="w-5 h-5 text-gray-600" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" align="center">
-              <p>Notifications</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Link href="/dashboard/notifications">
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="p-2 rounded-full hover:bg-gray-100">
+                  <Bell className="w-5 h-5 text-gray-600" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" align="center">
+                <p>Notifications</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Link>
 
         {/* User Avatar */}
         {user?.imageUrl ? (
