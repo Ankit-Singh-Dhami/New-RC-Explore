@@ -11,7 +11,6 @@ import {
   Briefcase,
   Globe,
   Edit2,
-  Check,
   X,
   Camera,
   Linkedin,
@@ -21,7 +20,6 @@ import {
   Users,
   FileText,
   ChevronRight,
-  Star,
   TrendingUp,
   Zap,
   Sparkles,
@@ -29,52 +27,51 @@ import {
   Share2,
   Bell,
   Settings,
+  GraduationCap,
 } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const Page = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState({
-    name: "Ankit Kumar",
-    title: "Full Stack Developer & Student",
-    email: "ankit.kumar@email.com",
-    phone: "+91 98765 43210",
-    location: "New Delhi, India",
-    bio: "Passionate full-stack developer specializing in modern web technologies. Currently pursuing Computer Science while building innovative solutions. Love exploring AI/ML and cloud technologies.",
-    education: "B.Tech Computer Science - IIT Delhi",
-    experience: "3+ years",
-    skills: [
-      "React",
-      "TypeScript",
-      "Node.js",
-      "Next.js",
-      "Tailwind CSS",
-      "MongoDB",
-      "AWS",
-      "GraphQL",
-      "Python",
-      "Docker",
-    ],
-    github: "github.com/ankit",
-    linkedin: "linkedin.com/in/ankit",
-    portfolio: "ankit.dev",
-  });
+  const params = useParams();
 
-  const [tempProfile, setTempProfile] = useState(profile);
+  const rollNo =
+    typeof params.studentId === "string" ? params.studentId : undefined;
+
+  const student = useQuery(
+    api.fetch.getStudentByRollNo,
+    rollNo ? { rollNo } : "skip",
+  );
+
+  // ✅ ALL hooks come BEFORE returns
+  const [isEditing, setIsEditing] = useState(false);
+  const [userType, setUserType] = useState("student");
+  const [tempProfile, setTempProfile] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleSave = () => {
-    setProfile(tempProfile);
-    setIsEditing(false);
-  };
+  // sync tempProfile when student arrives
+  useEffect(() => {
+    if (student) {
+      setTempProfile(student);
+    }
+  }, [student]);
 
-  const handleCancel = () => {
-    setTempProfile(profile);
-    setIsEditing(false);
-  };
+  if (!rollNo) {
+    return <div>Invalid student</div>;
+  }
+
+  if (student === undefined || !mounted) {
+    return <div>Loading...</div>;
+  }
+
+  if (student === null) {
+    return <div>Student not found</div>;
+  }
 
   const socialLinks = [
     {
@@ -236,11 +233,22 @@ const Page = () => {
 
                 {/* Profile Content */}
                 <div className="px-6 pb-6 -mt-16 relative">
-                  {/* Avatar */}
+                  {/* Avatar with User Type Badge */}
                   <div className="relative w-32 h-32">
                     <div className="w-full h-full rounded-full border-4 border-white bg-gradient-to-br from-blue-400 to-purple-500 shadow-xl flex items-center justify-center">
                       <User className="w-16 h-16 text-white" />
                     </div>
+
+                    {/* User Type Badge - Top Right of Profile Pic */}
+                    <div className="absolute -top-2 right-0">
+                      <div className="flex items-center gap-1 px-2 py-1 bg-white rounded-full shadow-lg border border-gray-200">
+                        <GraduationCap className="w-3 h-3 text-blue-600" />
+                        <span className="text-xs font-semibold text-gray-800 capitalize">
+                          {userType}
+                        </span>
+                      </div>
+                    </div>
+
                     <button className="absolute bottom-2 right-2 p-2 bg-white text-gray-700 rounded-full hover:bg-gray-50 transition shadow-lg">
                       <Camera className="w-4 h-4" />
                     </button>
@@ -264,18 +272,18 @@ const Page = () => {
                           />
                         ) : (
                           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-                            {profile.name}
+                            {student.name}
                           </h2>
                         )}
 
                         {isEditing ? (
                           <input
                             type="text"
-                            value={tempProfile.title}
+                            value={tempProfile.branch}
                             onChange={(e) =>
                               setTempProfile({
                                 ...tempProfile,
-                                title: e.target.value,
+                                branch: e.target.value,
                               })
                             }
                             className="text-gray-600 bg-gray-100 rounded-lg px-4 py-2 w-full mt-2"
@@ -283,7 +291,7 @@ const Page = () => {
                         ) : (
                           <p className="text-gray-600 mt-1 flex items-center gap-2">
                             <Zap className="w-4 h-4 text-yellow-500" />
-                            {profile.title}
+                            {student.branch}
                           </p>
                         )}
                       </div>
@@ -293,34 +301,6 @@ const Page = () => {
                       </button>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Stats Grid */}
-              <div className="px-6 pb-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {stats.map((stat, index) => (
-                    <div
-                      key={index}
-                      className={`${stat.color} rounded-xl p-4 hover:shadow-md transition-all cursor-pointer border border-gray-200`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className={`p-2 rounded-lg ${stat.iconBg}`}>
-                          {stat.icon}
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-gray-400" />
-                      </div>
-                      <p className="text-2xl font-bold text-gray-800">
-                        {stat.value}
-                      </p>
-                      <p className="text-sm font-medium text-gray-600">
-                        {stat.label}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {stat.change}
-                      </p>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -347,7 +327,7 @@ const Page = () => {
                     />
                   ) : (
                     <p className="text-gray-600 leading-relaxed">
-                      {profile.bio}
+                      {student.bio}
                     </p>
                   )}
                 </div>
@@ -359,7 +339,7 @@ const Page = () => {
                     Top Skills
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {profile.skills.map((skill, index) => (
+                    {student.skills.map((skill, index) => (
                       <span
                         key={index}
                         className="px-3 py-2 bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 rounded-lg border border-purple-200 font-medium hover:bg-purple-100 transition cursor-pointer"
@@ -468,7 +448,7 @@ const Page = () => {
                 <InfoField
                   icon={<Mail className="w-4 h-4 text-blue-600" />}
                   label="Email"
-                  value={profile.email}
+                  value={student.email}
                   isEditing={isEditing}
                   onChange={(value) =>
                     setTempProfile({ ...tempProfile, email: value })
@@ -477,7 +457,7 @@ const Page = () => {
                 <InfoField
                   icon={<Phone className="w-4 h-4 text-green-600" />}
                   label="Phone"
-                  value={profile.phone}
+                  value={student.phone}
                   isEditing={isEditing}
                   onChange={(value) =>
                     setTempProfile({ ...tempProfile, phone: value })
@@ -486,7 +466,7 @@ const Page = () => {
                 <InfoField
                   icon={<MapPin className="w-4 h-4 text-red-600" />}
                   label="Location"
-                  value={profile.location}
+                  value={student.location}
                   isEditing={isEditing}
                   onChange={(value) =>
                     setTempProfile({ ...tempProfile, location: value })
@@ -495,30 +475,13 @@ const Page = () => {
                 <InfoField
                   icon={<Calendar className="w-4 h-4 text-purple-600" />}
                   label="Experience"
-                  value={profile.experience}
+                  value={student.experience}
                   isEditing={isEditing}
                   onChange={(value) =>
                     setTempProfile({ ...tempProfile, experience: value })
                   }
                 />
               </div>
-
-              {isEditing && (
-                <div className="flex gap-2 mt-6">
-                  <button
-                    onClick={handleSave}
-                    className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg font-medium hover:shadow-lg transition"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={handleCancel}
-                    className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Social Links */}
@@ -553,7 +516,7 @@ const Page = () => {
                   </div>
                   <div>
                     <p className="font-bold text-gray-800">
-                      {profile.education}
+                      {student.education}
                     </p>
                     <p className="text-sm text-gray-600 mt-1">2020 - 2024</p>
                     <div className="flex items-center gap-2 mt-2">

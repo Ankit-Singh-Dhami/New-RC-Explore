@@ -11,7 +11,6 @@ import {
   Briefcase,
   Globe,
   Edit2,
-  Check,
   X,
   Camera,
   Linkedin,
@@ -21,7 +20,6 @@ import {
   Users,
   FileText,
   ChevronRight,
-  Star,
   TrendingUp,
   Zap,
   Sparkles,
@@ -29,10 +27,12 @@ import {
   Share2,
   Bell,
   Settings,
+  GraduationCap,
 } from "lucide-react";
 
 const Page = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [userType, setUserType] = useState("student"); // Default to student
   const [profile, setProfile] = useState({
     name: "Ankit Kumar",
     title: "Full Stack Developer & Student",
@@ -236,11 +236,22 @@ const Page = () => {
 
                 {/* Profile Content */}
                 <div className="px-6 pb-6 -mt-16 relative">
-                  {/* Avatar */}
+                  {/* Avatar with User Type Badge */}
                   <div className="relative w-32 h-32">
                     <div className="w-full h-full rounded-full border-4 border-white bg-gradient-to-br from-blue-400 to-purple-500 shadow-xl flex items-center justify-center">
                       <User className="w-16 h-16 text-white" />
                     </div>
+
+                    {/* User Type Badge - Top Right of Profile Pic */}
+                    <div className="absolute -top-2 right-0">
+                      <div className="flex items-center gap-1 px-2 py-1 bg-white rounded-full shadow-lg border border-gray-200">
+                        <GraduationCap className="w-3 h-3 text-blue-600" />
+                        <span className="text-xs font-semibold text-gray-800 capitalize">
+                          {userType}
+                        </span>
+                      </div>
+                    </div>
+
                     <button className="absolute bottom-2 right-2 p-2 bg-white text-gray-700 rounded-full hover:bg-gray-50 transition shadow-lg">
                       <Camera className="w-4 h-4" />
                     </button>
@@ -293,34 +304,6 @@ const Page = () => {
                       </button>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Stats Grid */}
-              <div className="px-6 pb-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {stats.map((stat, index) => (
-                    <div
-                      key={index}
-                      className={`${stat.color} rounded-xl p-4 hover:shadow-md transition-all cursor-pointer border border-gray-200`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className={`p-2 rounded-lg ${stat.iconBg}`}>
-                          {stat.icon}
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-gray-400" />
-                      </div>
-                      <p className="text-2xl font-bold text-gray-800">
-                        {stat.value}
-                      </p>
-                      <p className="text-sm font-medium text-gray-600">
-                        {stat.label}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {stat.change}
-                      </p>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>

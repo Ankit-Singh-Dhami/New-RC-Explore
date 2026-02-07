@@ -3,78 +3,19 @@
 import { useState } from "react";
 import { Search, Filter, User, BookOpen, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const StudentInfoPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
 
-  const students = [
-    {
-      id: 1,
-      name: "Ankit Kumar",
-      rollNo: "2023001",
-      branch: "Computer Science",
-      year: "Final Year",
-      avatarColor: "bg-gradient-to-br from-blue-500 to-blue-600",
-    },
-    {
-      id: 2,
-      name: "Priya Sharma",
-      rollNo: "2023002",
-      branch: "Electronics",
-      year: "Third Year",
-      avatarColor: "bg-gradient-to-br from-purple-500 to-purple-600",
-    },
-    {
-      id: 3,
-      name: "Rahul Verma",
-      rollNo: "2023003",
-      branch: "Mechanical",
-      year: "Second Year",
-      avatarColor: "bg-gradient-to-br from-green-500 to-green-600",
-    },
-    {
-      id: 4,
-      name: "Sneha Patel",
-      rollNo: "2023004",
-      branch: "Computer Science",
-      year: "First Year",
-      avatarColor: "bg-gradient-to-br from-pink-500 to-pink-600",
-    },
-    {
-      id: 5,
-      name: "Arun Singh",
-      rollNo: "2023005",
-      branch: "Civil",
-      year: "Final Year",
-      avatarColor: "bg-gradient-to-br from-orange-500 to-orange-600",
-    },
-    {
-      id: 6,
-      name: "Meera Iyer",
-      rollNo: "2023006",
-      branch: "Biotech",
-      year: "Third Year",
-      avatarColor: "bg-gradient-to-br from-teal-500 to-teal-600",
-    },
-    {
-      id: 7,
-      name: "Vikram Reddy",
-      rollNo: "2023007",
-      branch: "Computer Science",
-      year: "Second Year",
-      avatarColor: "bg-gradient-to-br from-indigo-500 to-indigo-600",
-    },
-    {
-      id: 8,
-      name: "Neha Gupta",
-      rollNo: "2023008",
-      branch: "Electrical",
-      year: "First Year",
-      avatarColor: "bg-gradient-to-br from-red-500 to-red-600",
-    },
-  ];
+  const students = useQuery(api.fetch.getStudents);
+
+  if (students === undefined) {
+    return <p>Loading students...</p>;
+  }
 
   const branches = [
     "all",
@@ -197,14 +138,12 @@ const StudentInfoPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredStudents.map((student) => (
             <div
-              key={student.id}
+              key={student.rollNo}
               className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-all"
             >
               {/* Avatar with Gradient */}
               <div className="flex justify-center mb-4">
-                <div
-                  className={`${student.avatarColor} w-16 h-16 rounded-full flex items-center justify-center`}
-                >
+                <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center">
                   <User className="w-8 h-8 text-white" />
                 </div>
               </div>
@@ -231,7 +170,10 @@ const StudentInfoPage = () => {
               </div>
 
               {/* View Profile */}
-              <Link href="/dashboard/features/student-info/22">
+              <Link
+                key={student._id}
+                href={`/dashboard/features/student-info/${student.rollNo}`}
+              >
                 <button className="w-full py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition text-sm font-medium">
                   View Profile
                 </button>

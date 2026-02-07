@@ -557,7 +557,7 @@ const AchievementsGalleryPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-3 sm:p-4 md:p-6">
+    <div className="min-h-[calc(100vh-4rem)] bg-gray-50 p-3 sm:p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-4 sm:mb-6 md:mb-8">
@@ -567,7 +567,7 @@ const AchievementsGalleryPage = () => {
                 <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                   Achievements Gallery
                 </h1>
                 <p className="text-xs sm:text-sm md:text-base text-gray-600">

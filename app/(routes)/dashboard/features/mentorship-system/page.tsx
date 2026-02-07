@@ -17,6 +17,7 @@ import {
   X,
   ChevronRight,
 } from "lucide-react";
+import Link from "next/link";
 
 const MentorshipSystemPage = () => {
   const [activeTab, setActiveTab] = useState<
@@ -267,54 +268,16 @@ const MentorshipSystemPage = () => {
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-              <button className="px-3 py-2 sm:px-4 sm:py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
-                <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">Become a Mentor</span>
-                <span className="sm:hidden">Mentor</span>
-              </button>
+              <Link href="/dashboard/features/mentorship-system/become-mentor">
+                <button className="px-3 py-2 sm:px-4 sm:py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+                  <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Become a Mentor</span>
+                  <span className="sm:hidden">Mentor</span>
+                </button>
+              </Link>
               <button className="px-3 py-2 sm:px-4 sm:py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition font-medium text-sm sm:text-base">
                 Profile
               </button>
-            </div>
-          </div>
-
-          {/* Stats - Responsive Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 md:mb-6">
-            <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1">
-                {mentors.length}
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-1">
-                <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="truncate">Active Mentors</span>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1">
-                {activeMentorships.length}
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-1">
-                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="truncate">Active</span>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1">
-                89%
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-1">
-                <Star className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="truncate">Satisfaction</span>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1">
-                324
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-1">
-                <Award className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="truncate">Sessions</span>
-              </div>
             </div>
           </div>
 
@@ -400,8 +363,8 @@ const MentorshipSystemPage = () => {
               </div>
             </div>
 
-            {/* Mentors Grid - Responsive */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+            {/* Mentors Grid - CHANGED TO 2 CARDS PER ROW ON LARGE SCREENS */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
               {filteredMentors.map((mentor) => (
                 <div
                   key={mentor.id}
@@ -468,36 +431,10 @@ const MentorshipSystemPage = () => {
                       </div>
                     </div>
 
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-6">
-                      <div className="text-center">
-                        <div className="text-base sm:text-lg font-bold text-gray-900">
-                          {mentor.rating}
-                        </div>
-                        <div className="text-xs text-gray-600 flex items-center justify-center gap-0.5 sm:gap-1">
-                          <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                          <span className="hidden sm:inline">Rating</span>
-                          <span className="sm:hidden">Rate</span>
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-base sm:text-lg font-bold text-gray-900">
-                          {mentor.reviews}
-                        </div>
-                        <div className="text-xs text-gray-600">Reviews</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-base sm:text-lg font-bold text-gray-900">
-                          {mentor.sessionsConducted}
-                        </div>
-                        <div className="text-xs text-gray-600">Sessions</div>
-                      </div>
-                    </div>
-
                     {/* Actions */}
                     <div className="flex gap-2 sm:gap-3">
                       <button className="flex-1 py-2 sm:py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium text-sm sm:text-base">
-                        Request
+                        See Profile
                       </button>
                       <button className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
                         <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />

@@ -11,80 +11,18 @@ import {
   Share2,
 } from "lucide-react";
 import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const LostPage = () => {
+  const lostItems = useQuery(api.lostItem.getLostItem);
+  console.log(lostItems);
+
   const [searchQuery, setSearchQuery] = useState("");
 
-  const lostItems = [
-    {
-      id: 1,
-      title: "MacBook Pro 14-inch",
-      description:
-        "Space Gray, 2023 model with M2 Pro chip. Found in Computer Lab 302.",
-      location: "Computer Lab Building",
-      date: "2024-01-15",
-      time: "14:30",
-      contact: "ankit@email.com",
-      reward: "₹5,000",
-      urgent: true,
-    },
-    {
-      id: 2,
-      title: "Calculus Textbook",
-      description:
-        "Thomas' Calculus 14th Edition, has handwritten notes inside.",
-      location: "Library - 2nd Floor",
-      date: "2024-01-14",
-      time: "10:15",
-      contact: "+91 98765 43210",
-      reward: null,
-      urgent: false,
-    },
-    {
-      id: 3,
-      title: "Student ID Card",
-      description: "Name: Rahul Sharma, ID: 20230045. Photo attached.",
-      location: "Cafeteria",
-      date: "2024-01-13",
-      time: "18:45",
-      contact: "rahul@email.com",
-      reward: null,
-      urgent: true,
-    },
-    {
-      id: 4,
-      title: "Wireless Earphones",
-      description: "White Sony WF-1000XM4 in a black case.",
-      location: "Gym",
-      date: "2024-01-12",
-      time: "20:00",
-      contact: "gym@college.edu",
-      reward: "₹2,000",
-      urgent: false,
-    },
-    {
-      id: 5,
-      title: "Blue Hoodie",
-      description: "Nike hoodie with college logo on left chest.",
-      location: "Basketball Court",
-      date: "2024-01-11",
-      time: "16:30",
-      contact: "sports@college.edu",
-      reward: null,
-      urgent: false,
-    },
-    {
-      id: 6,
-      title: "Scientific Calculator",
-      description: "Casio FX-991EX, has stickers on the back.",
-      location: "Physics Lab",
-      date: "2024-01-10",
-      time: "11:00",
-      contact: "+91 98765 12345",
-      reward: "₹1,500",
-      urgent: false,
-    },
-  ];
+  if (lostItems === undefined) {
+    return <p className="p-6">Loading lost items...</p>;
+  }
 
   const filteredItems = lostItems.filter((item) => {
     if (!searchQuery) return true;
@@ -128,7 +66,7 @@ const LostPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
               >
                 {/* Item Header */}
@@ -206,7 +144,7 @@ const LostPage = () => {
           </div>
         )}
         {/* Footer */}
-        import Link from "next/link";
+
         <div className="mt-8 text-center text-gray-500 text-sm">
           <p>
             Found something?{" "}

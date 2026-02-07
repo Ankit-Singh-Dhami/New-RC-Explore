@@ -3,35 +3,23 @@
 import { useState } from "react";
 import { ArrowLeft, Upload, Camera, X } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const ReportLostPage = () => {
   const router = useRouter();
+  const addLostItem = useMutation(api.lostItem.addLostItem);
 
   const [formData, setFormData] = useState({
-    itemName: "",
-    category: "",
+    title: "",
     description: "",
     location: "",
     date: "",
     time: "",
-    contactEmail: "",
-    contactPhone: "",
+    contact: "",
     reward: "",
-    isUrgent: false,
+    urgent: false,
   });
-
-  const [image, setImage] = useState<string | null>(null);
-
-  const categories = [
-    "Electronics",
-    "Books & Notes",
-    "Accessories",
-    "Clothing",
-    "Documents",
-    "Keys",
-    "Wallet/Purse",
-    "Others",
-  ];
 
   const locations = [
     "Library",
@@ -65,24 +53,10 @@ const ReportLostPage = () => {
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const removeImage = () => {
-    setImage(null);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", { ...formData, image });
+    console.log("Form submitted:", { ...formData });
+    addLostItem(formData);
     alert("Lost item reported successfully!");
     router.push("/dashboard/features/lost-item");
   };
@@ -110,57 +84,6 @@ const ReportLostPage = () => {
           onSubmit={handleSubmit}
           className="bg-white rounded-lg border border-gray-200 p-6"
         >
-          {/* Image Upload */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Item Photo
-            </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-              {image ? (
-                <div className="relative">
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className="max-h-64 mx-auto rounded-lg"
-                  />
-                  <button
-                    type="button"
-                    onClick={removeImage}
-                    className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="w-12 h-12 mx-auto rounded-full bg-gray-100 flex items-center justify-center">
-                    <Camera className="w-6 h-6 text-gray-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      Upload a photo of your item
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      JPG, PNG or GIF. Max size 5MB
-                    </p>
-                  </div>
-                  <label className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                    <div className="flex items-center gap-2">
-                      <Upload className="w-4 h-4" />
-                      Choose File
-                    </div>
-                  </label>
-                </div>
-              )}
-            </div>
-          </div>
-
           {/* Item Details */}
           <div className="space-y-4">
             {/* Item Name */}
@@ -170,8 +93,8 @@ const ReportLostPage = () => {
               </label>
               <input
                 type="text"
-                name="itemName"
-                value={formData.itemName}
+                name="title"
+                value={formData.title}
                 onChange={handleChange}
                 required
                 className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none transition"
@@ -181,25 +104,6 @@ const ReportLostPage = () => {
 
             {/* Category and Location */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Category *
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none transition"
-                >
-                  <option value="">Select a category</option>
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Last Seen Location *
@@ -271,26 +175,12 @@ const ReportLostPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  name="contactEmail"
-                  value={formData.contactEmail}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none transition"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Phone Number
                 </label>
                 <input
                   type="tel"
-                  name="contactPhone"
-                  value={formData.contactPhone}
+                  name="contact"
+                  value={formData.contact}
                   onChange={handleChange}
                   className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none transition"
                   placeholder="+91 98765 43210"
@@ -317,8 +207,8 @@ const ReportLostPage = () => {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    name="isUrgent"
-                    checked={formData.isUrgent}
+                    name="urgent"
+                    checked={formData.urgent}
                     onChange={handleChange}
                     className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                   />
