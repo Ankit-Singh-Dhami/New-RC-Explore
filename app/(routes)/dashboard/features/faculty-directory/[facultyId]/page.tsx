@@ -37,36 +37,33 @@ import {
   ClipboardCheck,
 } from "lucide-react";
 
-const Page = () => {
-  const [profile, setProfile] = useState({
-    name: "Prof. Ankit Kumar",
-    title: "Associate Professor & Department Head",
-    email: "ankit.kumar@university.edu",
-    phone: "+91 98765 43210",
-    location: "Department of Computer Science, IIT Delhi",
-    bio: "Computer Science faculty specializing in Artificial Intelligence and Machine Learning. Published 50+ research papers in top-tier conferences and journals. Passionate about mentoring students and driving innovation in education.",
-    education: "Ph.D. in Computer Science - Stanford University",
-    experience: "12+ years teaching experience",
-    department: "Computer Science & Engineering",
-    rating: "4.8",
-    reviews: "142",
-    courses: ["Machine Learning", "Data Structures", "AI", "Cloud Computing"],
-    researchAreas: ["Deep Learning", "Computer Vision", "NLP", "Edge AI"],
-    publications: "52",
-    grants: "15",
-    officeHours: "Mon, Wed, Fri: 2-4 PM",
-    availability: "Available for projects",
-    github: "github.com/prof-ankit",
-    linkedin: "linkedin.com/in/prof-ankit",
-    portfolio: "profankit.dev",
-  });
+import { api } from "@/convex/_generated/api";
+import { useParams } from "next/navigation";
+import { useQuery } from "convex/react";
 
+const Page = () => {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
+
+  const params = useParams();
+  const id =
+    typeof params.facultyId === "string" ? params.facultyId : undefined;
+
+  console.log(id);
+
+  const profile = useQuery(api.fetch.getFacultyById, id ? { id } : "skip");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (profile === undefined) {
+    return <>loading ....</>;
+  }
+
+  if (profile === null) {
+    return <div>Faculty not found</div>;
+  }
 
   const socialLinks = [
     {
@@ -296,7 +293,7 @@ const Page = () => {
                         </h2>
                         <p className="text-gray-600 mt-1 flex items-center gap-2">
                           <Building className="w-4 h-4 text-blue-500" />
-                          {profile.title}
+                          {profile.designation}
                         </p>
                         <div className="flex items-center gap-4 mt-3">
                           <div className="flex items-center gap-1">
@@ -366,7 +363,7 @@ const Page = () => {
                         Research Areas
                       </h3>
                       <div className="flex flex-wrap gap-2">
-                        {profile.researchAreas.map((area, index) => (
+                        {profile.research.map((area, index) => (
                           <span
                             key={index}
                             className="px-3 py-2 bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 rounded-lg border border-purple-200 font-medium"
@@ -476,6 +473,7 @@ const Page = () => {
                   label="Email"
                   value={profile.email}
                 />
+
                 <InfoField
                   icon={<Phone className="w-4 h-4 text-green-600" />}
                   label="Office Phone"

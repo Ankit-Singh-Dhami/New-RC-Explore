@@ -21,6 +21,8 @@ import {
   Users as UsersIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 // Define proper TypeScript interfaces
 interface CommitteeMember {
@@ -70,191 +72,18 @@ interface Club {
 
 const ClubDetailsPage = () => {
   const params = useParams();
-  const clubId = params?.clubId as string;
+  const id = params.clubID;
+  console.log(params);
 
+  console.log(id);
   // Mock data with proper typing
-  const clubs: Club[] = [
-    {
-      id: 1,
-      name: "Innovation E-Cell",
-      description:
-        "Promoting entrepreneurship and innovation among students. Organizes workshops, startup competitions, and mentorship programs.",
-      longDescription: `The Innovation Entrepreneurship Cell (E-Cell) is a student-run organization dedicated to fostering entrepreneurial spirit and innovation on campus. We provide a platform for students to transform their ideas into viable business ventures through mentorship, funding opportunities, and networking events.
+  const club = useQuery(api.fetch.getCLubById, id ? { id } : "skip");
 
-Our mission is to create a vibrant entrepreneurial ecosystem where students can learn, experiment, and grow. We believe that entrepreneurship is not just about starting businesses, but about developing a mindset that embraces innovation, problem-solving, and leadership.
+  console.log(club);
 
-Join us to be part of a community that shapes the future of entrepreneurship!`,
-      icon: <Zap className="w-6 h-6" />,
-      color: "orange",
-      members: "150+",
-      events: "Monthly",
-      contact: "ecell@college.edu",
-      location: "Tech Block, Room 301",
-      active: true,
-      category: "Entrepreneurship",
-      established: "2018",
-      president: "Aarav Sharma",
-      vicePresident: "Neha Patel",
-      facultyCoordinator: "Dr. Rajesh Kumar",
-      social: {
-        instagram: "@innovate_ecell",
-        linkedin: "innovation-ecell",
-        website: "ecell.college.edu",
-      },
-      upcomingEvents: [
-        {
-          name: "Startup Pitch Day",
-          date: "2024-03-15",
-          time: "2:00 PM - 5:00 PM",
-          description: "Pitch your startup idea to investors and win funding",
-        },
-        {
-          name: "Entrepreneur Talk Series",
-          date: "2024-03-22",
-          time: "4:00 PM - 6:00 PM",
-          description: "Session with successful alumni entrepreneurs",
-        },
-        {
-          name: "Business Model Workshop",
-          date: "2024-04-05",
-          time: "10:00 AM - 1:00 PM",
-          description: "Learn to create effective business models",
-        },
-      ],
-      pastEvents: [
-        { name: "Hackathon 2023", date: "2023-11-15" },
-        { name: "Funding Fair", date: "2023-09-20" },
-        { name: "Mentorship Program", date: "2023-08-01" },
-      ],
-      achievements: [
-        "Winner of National Startup Challenge 2023",
-        "10+ startups incubated successfully",
-        "Raised $500,000+ in funding for student startups",
-        "Featured in Entrepreneur Magazine 2022",
-        "Best E-Cell Award at National Level",
-      ],
-      committee: [
-        { role: "President", name: "Aarav Sharma" },
-        { role: "Vice President", name: "Neha Patel" },
-        { role: "Events Head", name: "Rohan Mehta" },
-        { role: "Marketing Head", name: "Priya Singh" },
-        { role: "Tech Head", name: "Karan Verma" },
-      ],
-      requirements: [
-        "Open to all undergraduate students",
-        "No prior experience required",
-        "Willingness to learn and collaborate",
-        "Passion for innovation and problem-solving",
-      ],
-    },
-    {
-      id: 2,
-      name: "Sports Club",
-      description:
-        "Organizes sports events, tournaments, and fitness activities across various sports disciplines.",
-      longDescription: `The Sports Club is dedicated to promoting physical fitness, sportsmanship, and competitive spirit among students. We organize various sports activities, tournaments, and fitness programs throughout the year.
-
-Our facilities include access to the college sports complex, gymnasium, swimming pool, and multiple courts for different sports. We participate in inter-college tournaments and have produced several national-level athletes.
-
-Join us to stay fit, make friends, and represent your college in various competitions!`,
-      icon: <Trophy className="w-6 h-6" />,
-      color: "green",
-      members: "200+",
-      events: "Weekly",
-      contact: "sports@college.edu",
-      location: "Sports Complex",
-      active: true,
-      category: "Sports",
-      established: "2015",
-      president: "Raj Patel",
-      social: {
-        instagram: "@college_sports",
-        linkedin: "college-sports-club",
-      },
-      upcomingEvents: [
-        { name: "Annual Sports Meet", date: "2024-04-01" },
-        { name: "Inter-College Cricket", date: "2024-03-20" },
-      ],
-      achievements: [
-        "University Champions 2022-23",
-        "5 National level players",
-      ],
-      committee: [],
-      requirements: [],
-    },
-    {
-      id: 3,
-      name: "NCC Unit",
-      description:
-        "National Cadet Corps unit focusing on discipline, leadership, and national service activities.",
-      longDescription: `The National Cadet Corps (NCC) is the youth wing of the Indian Armed Forces. Our unit focuses on developing character, discipline, leadership, and a spirit of adventure among students.
-
-We conduct regular drills, adventure activities, and community service programs. NCC cadets get opportunities to participate in national camps, mountaineering expeditions, and social service initiatives.
-
-Join NCC to develop leadership qualities and serve the nation!`,
-      icon: <Shield className="w-6 h-6" />,
-      color: "blue",
-      members: "100+",
-      events: "Regular Drills",
-      contact: "ncc@college.edu",
-      location: "NCC Building",
-      active: true,
-      category: "Discipline & Service",
-      established: "2010",
-      president: "Captain Anjali Singh",
-      social: {
-        instagram: "@ncc_unit_college",
-      },
-      upcomingEvents: [
-        { name: "Republic Day Parade", date: "2024-01-26" },
-        { name: "Annual Camp", date: "2024-12-15" },
-      ],
-      achievements: [
-        "Best NCC Unit State Award 2022",
-        "100% selection in SSB interviews",
-      ],
-      committee: [],
-      requirements: [],
-    },
-    {
-      id: 4,
-      name: "Cultural Club",
-      description:
-        "Promotes cultural activities, performing arts, music, dance, and drama events throughout the year.",
-      longDescription: `The Cultural Club is the heart of artistic expression on campus. We celebrate diversity through various cultural activities including music, dance, drama, fine arts, and literary events.
-
-We organize annual fests, cultural nights, and inter-college competitions. Our members get opportunities to showcase their talents and represent the college at various cultural events.
-
-Join us to explore your artistic side and be part of memorable cultural experiences!`,
-      icon: <Users className="w-6 h-6" />,
-      color: "purple",
-      members: "120+",
-      events: "Monthly",
-      contact: "cultural@college.edu",
-      location: "Auditorium",
-      active: true,
-      category: "Arts & Culture",
-      established: "2016",
-      president: "Priya Verma",
-      social: {
-        instagram: "@cultural_club",
-        facebook: "collegecultural",
-        youtube: "CollegeCulturalEvents",
-      },
-      upcomingEvents: [
-        { name: "Annual Fest", date: "2024-02-20" },
-        { name: "Music Night", date: "2024-03-10" },
-      ],
-      achievements: [
-        "Best Cultural Club State Level",
-        "National Dance Competition Winners",
-      ],
-      committee: [],
-      requirements: [],
-    },
-  ];
-
-  const club = clubs.find((c) => c.id === parseInt(clubId || "1"));
+  if (club === undefined) {
+    return <>loafinaf</>;
+  }
 
   if (!club) {
     return (

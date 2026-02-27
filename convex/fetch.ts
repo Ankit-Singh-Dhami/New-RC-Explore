@@ -9,6 +9,18 @@ export const getClubs = query({
   },
 });
 
+export const getCLubById = query({
+  args: {
+    id: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("clubs")
+      .filter((q) => q.eq(q.field("_id"), args.id))
+      .first();
+  },
+});
+
 /* EVENTS */
 export const getEvents = query({
   args: {},
@@ -106,5 +118,24 @@ export const getStudyMaterials = query({
   args: {},
   handler: async (ctx) => {
     return await ctx.db.query("studyMaterials").collect();
+  },
+});
+
+export const getFaculty = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("faculty").collect();
+  },
+});
+
+export const getFacultyById = query({
+  args: {
+    id: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("faculty")
+      .filter((q) => q.eq(q.field("_id"), args.id))
+      .first();
   },
 });

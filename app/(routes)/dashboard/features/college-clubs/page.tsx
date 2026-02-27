@@ -12,64 +12,19 @@ import {
   Mail,
   ExternalLink,
 } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const CollegeClubsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
 
-  const clubs = [
-    {
-      id: 1,
-      name: "Innovation E-Cell",
-      description:
-        "Promoting entrepreneurship and innovation among students. Organizes workshops, startup competitions, and mentorship programs.",
-      icon: <Zap className="w-6 h-6" />,
-      color: "orange",
-      members: "150+",
-      events: "Monthly",
-      contact: "ecell@college.edu",
-      location: "Tech Block, Room 301",
-      active: true,
-    },
-    {
-      id: 2,
-      name: "Sports Club",
-      description:
-        "Organizes sports events, tournaments, and fitness activities across various sports disciplines.",
-      icon: <Trophy className="w-6 h-6" />,
-      color: "green",
-      members: "200+",
-      events: "Weekly",
-      contact: "sports@college.edu",
-      location: "Sports Complex",
-      active: true,
-    },
-    {
-      id: 3,
-      name: "NCC Unit",
-      description:
-        "National Cadet Corps unit focusing on discipline, leadership, and national service activities.",
-      icon: <Shield className="w-6 h-6" />,
-      color: "blue",
-      members: "100+",
-      events: "Regular Drills",
-      contact: "ncc@college.edu",
-      location: "NCC Building",
-      active: true,
-    },
-    {
-      id: 4,
-      name: "Cultural Club",
-      description:
-        "Promotes cultural activities, performing arts, music, dance, and drama events throughout the year.",
-      icon: <Users className="w-6 h-6" />,
-      color: "purple",
-      members: "120+",
-      events: "Monthly",
-      contact: "cultural@college.edu",
-      location: "Auditorium",
-      active: true,
-    },
-  ];
+  const clubs = useQuery(api.fetch.getClubs);
+
+  if (clubs === undefined) {
+    return <>loading...</>;
+  }
 
   const filteredClubs = clubs.filter(
     (club) =>
@@ -145,7 +100,7 @@ const CollegeClubsPage = () => {
 
             return (
               <div
-                key={club.id}
+                key={club._id}
                 className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
               >
                 {/* Club Header */}
@@ -201,7 +156,14 @@ const CollegeClubsPage = () => {
                 </div>
 
                 {/* Actions */}
-                <div className="px-6 pb-6">
+                <div
+                  className="px-6 pb-6"
+                  onClick={() => {
+                    router.push(
+                      `/dashboard/features/college-clubs/${club._id}`,
+                    );
+                  }}
+                >
                   <button className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium flex items-center justify-center gap-2">
                     <span>See More</span>
                     <ExternalLink className="w-4 h-4" />
@@ -233,7 +195,7 @@ const CollegeClubsPage = () => {
             const colors = getColorClasses(club.color);
             return (
               <div
-                key={club.id}
+                key={club._id}
                 className="bg-white rounded-lg border border-gray-200 p-4 text-center"
               >
                 <div

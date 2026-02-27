@@ -589,33 +589,55 @@ export default defineSchema({
     .index("by_public", ["isPublic"]),
 
   faculty: defineTable({
+    // Basic Info
     name: v.string(),
-    title: v.string(),
+    designation: v.string(), // Associate Professor, HOD, etc.
     email: v.string(),
+    type: v.union(
+      v.literal("permanent"),
+      v.literal("visiting"),
+      v.literal("part-time"),
+      v.literal("guest"),
+    ),
+
+    // Contact
     phone: v.string(),
     location: v.string(),
-    bio: v.string(),
 
+    // Profile
+    bio: v.string(),
     education: v.string(),
     experience: v.string(),
     department: v.string(),
 
-    rating: v.number(),
-    reviewsCount: v.number(),
-    availability: v.string(),
+    // Academic Details
+    subjects: v.array(v.string()),
+    research: v.array(v.string()),
+
+    publications: v.number(),
+    grants: v.number(),
+
+    // Ratings & Reviews
+    rating: v.number(), // e.g. 4.8
+    reviews: v.number(), // total reviews count
+
+    // Availability
     officeHours: v.string(),
+    availability: v.string(),
 
-    researchAreas: v.array(v.string()),
+    // Social Links
+    social: v.object({
+      github: v.optional(v.string()),
+      linkedin: v.optional(v.string()),
+      portfolio: v.optional(v.string()),
+    }),
 
-    github: v.optional(v.string()),
-    linkedin: v.optional(v.string()),
-    portfolio: v.optional(v.string()),
-
-    createdAt: v.number(),
+    // Metadata
+    joinedAt: v.number(), // random timestamp
+    lastUpdatedAt: v.number(), // random timestamp
   })
     .index("by_email", ["email"])
-    .index("by_department", ["department"])
-    .index("by_rating", ["rating"]),
+    .index("by_department", ["department"]),
 
   mentors: defineTable({
     // Personal

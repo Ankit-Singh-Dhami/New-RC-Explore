@@ -1,8 +1,23 @@
+import { Highlighter } from "@/components/ui/highlighter";
+import { PixelImage } from "@/components/ui/pixel-image";
+
 export default function HeroSection() {
   return (
     <section className="bg-white lg:grid lg:h-screen lg:place-content-center">
       <div className="mx-auto w-screen max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
         <div className="mx-auto max-w-prose text-center">
+          <PixelImage src="/pixel-image-demo.jpg" grid="8x8" />
+          <p>
+            The{" "}
+            <Highlighter action="circle" color="#FF9800">
+              Magic UI Highlighter
+            </Highlighter>{" "}
+            makes important{" "}
+            <Highlighter action="strike-through" color="#87CEFA">
+              text stand out
+            </Highlighter>{" "}
+            effortlessly.
+          </p>
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
             Understand user flow and
             <strong className="text-indigo-600"> increase </strong>

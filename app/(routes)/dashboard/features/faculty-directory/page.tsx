@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const FacultyDirectoryPage = () => {
   const router = useRouter();
@@ -43,128 +45,11 @@ const FacultyDirectoryPage = () => {
     { id: "part-time", label: "Part Time" },
   ];
 
-  const faculty = [
-    {
-      id: 1,
-      name: "Dr. Ramesh Kumar",
-      designation: "Professor & Head",
-      department: "Computer Science",
-      type: "permanent",
-      subjects: ["Data Structures", "Algorithms", "AI"],
-      experience: "15 years",
-      research: "Machine Learning, Computer Vision",
-      degree: "PhD in Computer Science",
-      avatarColor: "bg-gradient-to-br from-blue-500 to-blue-600",
-    },
-    {
-      id: 2,
-      name: "Dr. Priya Sharma",
-      designation: "Associate Professor",
-      department: "Electronics",
-      type: "permanent",
-      subjects: ["Digital Electronics", "VLSI Design", "Embedded Systems"],
-      experience: "12 years",
-      research: "VLSI Design, IoT",
-      degree: "PhD in Electronics",
-      avatarColor: "bg-gradient-to-br from-green-500 to-green-600",
-    },
-    {
-      id: 3,
-      name: "Prof. Amit Patel",
-      designation: "Assistant Professor",
-      department: "Computer Science",
-      type: "visiting",
-      subjects: ["Web Development", "Database Systems", "Cloud Computing"],
-      experience: "8 years",
-      research: "Cloud Computing, Distributed Systems",
-      degree: "M.Tech, PhD Candidate",
-      avatarColor: "bg-gradient-to-br from-purple-500 to-purple-600",
-    },
-    {
-      id: 4,
-      name: "Dr. Neha Singh",
-      designation: "Professor",
-      department: "Mathematics",
-      type: "permanent",
-      subjects: ["Calculus", "Linear Algebra", "Discrete Mathematics"],
-      experience: "18 years",
-      research: "Applied Mathematics, Statistics",
-      degree: "PhD in Mathematics",
-      avatarColor: "bg-gradient-to-br from-red-500 to-red-600",
-    },
-    {
-      id: 5,
-      name: "Prof. Rajesh Verma",
-      designation: "Associate Professor",
-      department: "Mechanical",
-      type: "guest",
-      subjects: ["Thermodynamics", "Fluid Mechanics", "Machine Design"],
-      experience: "10 years",
-      research: "Thermal Engineering",
-      degree: "PhD in Mechanical Engineering",
-      avatarColor: "bg-gradient-to-br from-amber-500 to-amber-600",
-    },
-    {
-      id: 6,
-      name: "Dr. Sonia Kapoor",
-      designation: "Professor",
-      department: "Physics",
-      type: "permanent",
-      subjects: ["Quantum Mechanics", "Electromagnetism", "Optics"],
-      experience: "16 years",
-      research: "Quantum Physics, Nanotechnology",
-      degree: "PhD in Physics",
-      avatarColor: "bg-gradient-to-br from-indigo-500 to-indigo-600",
-    },
-    {
-      id: 7,
-      name: "Prof. Karan Mehta",
-      designation: "Assistant Professor",
-      department: "Computer Science",
-      type: "part-time",
-      subjects: ["Machine Learning", "Python Programming", "Data Science"],
-      experience: "6 years",
-      research: "AI, Natural Language Processing",
-      degree: "M.Tech in Data Science",
-      avatarColor: "bg-gradient-to-br from-teal-500 to-teal-600",
-    },
-    {
-      id: 8,
-      name: "Dr. Anjali Das",
-      designation: "Associate Professor",
-      department: "Chemistry",
-      type: "permanent",
-      subjects: ["Organic Chemistry", "Analytical Chemistry", "Biochemistry"],
-      experience: "11 years",
-      research: "Organic Synthesis, Medicinal Chemistry",
-      degree: "PhD in Chemistry",
-      avatarColor: "bg-gradient-to-br from-pink-500 to-pink-600",
-    },
-    {
-      id: 9,
-      name: "Prof. Vikram Joshi",
-      designation: "Assistant Professor",
-      department: "English",
-      type: "visiting",
-      subjects: ["British Literature", "Creative Writing", "Linguistics"],
-      experience: "7 years",
-      research: "Post-colonial Literature",
-      degree: "PhD in English Literature",
-      avatarColor: "bg-gradient-to-br from-orange-500 to-orange-600",
-    },
-    {
-      id: 10,
-      name: "Dr. Meera Reddy",
-      designation: "Professor",
-      department: "Management",
-      type: "permanent",
-      subjects: ["Marketing", "Strategic Management", "Finance"],
-      experience: "14 years",
-      research: "Strategic Management, Entrepreneurship",
-      degree: "PhD in Management",
-      avatarColor: "bg-gradient-to-br from-cyan-500 to-cyan-600",
-    },
-  ];
+  const faculty = useQuery(api.fetch.getFaculty);
+
+  if (faculty === undefined) {
+    return <>faculty details loading....</>;
+  }
 
   const filteredFaculty = faculty.filter((prof) => {
     if (selectedDept !== "all" && prof.department !== selectedDept)
@@ -179,7 +64,7 @@ const FacultyDirectoryPage = () => {
         prof.subjects.some((subject) =>
           subject.toLowerCase().includes(query),
         ) ||
-        prof.research.toLowerCase().includes(query)
+        prof.research.includes(query)
       );
     }
 
@@ -231,7 +116,7 @@ const FacultyDirectoryPage = () => {
     return type ? type.label : employmentType;
   };
 
-  const handleViewProfile = (id: number) => {
+  const handleViewProfile = (id: string) => {
     router.push(`/dashboard/features/faculty-directory/${id}`);
   };
 
@@ -465,14 +350,12 @@ const FacultyDirectoryPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredFaculty.map((prof) => (
             <div
-              key={prof.id}
+              key={prof._id}
               className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-all"
             >
               {/* Avatar with Gradient */}
               <div className="flex justify-center mb-4">
-                <div
-                  className={`${prof.avatarColor} w-16 h-16 rounded-full flex items-center justify-center`}
-                >
+                <div className=" bg-black-600 w-16 h-16 rounded-full flex items-center justify-center">
                   <User className="w-8 h-8 text-white" />
                 </div>
               </div>
@@ -492,7 +375,7 @@ const FacultyDirectoryPage = () => {
                 {/* Qualification */}
                 <div className="flex items-center justify-center gap-2 text-sm text-gray-700 mb-2">
                   <Award className="w-4 h-4" />
-                  <span>{prof.degree}</span>
+                  <span>{prof.education}</span>
                 </div>
 
                 {/* Experience */}
@@ -515,7 +398,7 @@ const FacultyDirectoryPage = () => {
 
               {/* View Profile Button */}
               <button
-                onClick={() => handleViewProfile(prof.id)}
+                onClick={() => handleViewProfile(prof._id)}
                 className="w-full py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition text-sm font-medium flex items-center justify-center gap-2"
               >
                 <Eye className="w-4 h-4" />
