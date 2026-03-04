@@ -1,52 +1,89 @@
-import { Highlighter } from "@/components/ui/highlighter";
+"use client";
+
+import { useEffect, useState } from "react";
 import { PixelImage } from "@/components/ui/pixel-image";
 
+const images = ["/images/bg.jpeg", "/images/bg2.jpeg", "/images/bg3.jpeg"];
+
 export default function HeroSection() {
+  const [current, setCurrent] = useState(0);
+
+  // Auto slide – resets timer after every manual or automatic change
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 3000); // change every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [current]); // dependency ensures timer restarts after each change
+
+  const goToPrevious = () => {
+    setCurrent((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const goToNext = () => {
+    setCurrent((prev) => (prev + 1) % images.length);
+  };
+
   return (
-    <section className="bg-white lg:grid lg:h-screen lg:place-content-center">
-      <div className="mx-auto w-screen max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
-        <div className="mx-auto max-w-prose text-center">
-          <PixelImage src="/pixel-image-demo.jpg" grid="8x8" />
-          <p>
-            The{" "}
-            <Highlighter action="circle" color="#FF9800">
-              Magic UI Highlighter
-            </Highlighter>{" "}
-            makes important{" "}
-            <Highlighter action="strike-through" color="#87CEFA">
-              text stand out
-            </Highlighter>{" "}
-            effortlessly.
-          </p>
-          <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-            Understand user flow and
-            <strong className="text-indigo-600"> increase </strong>
-            conversions
-          </h1>
-
-          <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
-            nisi. Natus, provident accusamus impedit minima harum corporis
-            iusto.
-          </p>
-
-          <div className="mt-4 flex justify-center gap-4 sm:mt-6">
-            <a
-              className="inline-block rounded border border-indigo-600 bg-indigo-600 px-5 py-3 font-medium text-white shadow-sm transition-colors hover:bg-indigo-700"
-              href="#"
-            >
-              Get Started
-            </a>
-
-            <a
-              className="inline-block rounded border border-gray-200 px-5 py-3 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 hover:text-gray-900"
-              href="#"
-            >
-              Learn More
-            </a>
-          </div>
+    <section className="relative h-screen w-full overflow-hidden">
+      {/* Background Slides */}
+      {images.map((img, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === current ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <PixelImage src={img} grid="8x8" />
         </div>
-      </div>
+      ))}
+
+      {/* Overlay (optional) */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Navigation Buttons */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/30 p-3 text-white backdrop-blur-sm transition hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white"
+        aria-label="Previous slide"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="h-6 w-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 19.5L8.25 12l7.5-7.5"
+          />
+        </svg>
+      </button>
+
+      <button
+        onClick={goToNext}
+        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/30 p-3 text-white backdrop-blur-sm transition hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white"
+        aria-label="Next slide"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="h-6 w-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+          />
+        </svg>
+      </button>
     </section>
   );
 }
