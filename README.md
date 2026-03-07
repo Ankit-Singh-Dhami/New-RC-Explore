@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RC Explore – Smart College Navigation & Campus Platform
 
-## Getting Started
+**RC Explore** is a modern college web platform designed to improve the campus experience for students, teachers, and visitors. It combines **interactive 3D campus navigation with essential campus services**, making it easier to explore and interact with the college environment.
 
-First, run the development server:
+Many students face difficulties navigating large campuses, finding classrooms, locating teachers, or accessing important information. RC Explore solves these problems by providing a **centralized digital platform with an integrated 3D campus model**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Problem
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+In many colleges, students experience several common challenges:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Difficulty **finding classrooms and departments**
+- Hard to **locate teachers or faculty offices**
+- No centralized platform for **campus information**
+- Lost items are difficult to recover
+- Limited awareness of **events, clubs, and achievements**
 
-## Learn More
+These issues make campus navigation and communication inefficient for students and faculty.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Solution
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+RC Explore provides a **smart digital campus platform** that helps students easily explore and interact with their college.
 
-## Deploy on Vercel
+The platform integrates an **interactive 3D campus model**, allowing users to visually navigate the campus and locate classrooms and buildings easily. This makes navigation much more intuitive compared to traditional maps.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The platform also includes multiple campus services in one place.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Key Features
+
+- **Integrated 3D campus model** for interactive navigation
+- **3D classroom visualization** to help students locate classes
+- **Student and teacher profile directory**
+- **Lost and Found system**
+- **Event discovery and campus activities**
+- **Mentorship program for student guidance**
+- **Clubs and community information**
+- **Student achievements showcase**
+- Secure user authentication
+
+---
+
+## Tech Stack
+
+The application is built using modern web technologies:
+
+- **Frontend:** Next.js  
+- **Database & Backend:** Convex  
+- **Authentication:** Clerk  
+- **3D Model Integration:** Interactive 3D campus and classroom visualization
+
+---
+
+## Impact
+
+RC Explore helps students and faculty:
+
+- Navigate the campus more easily using **3D visualization**
+- Quickly find classrooms and teachers
+- Stay updated with campus events and activities
+- Connect with mentors, clubs, and the student community
+
+The platform creates a **more interactive, organized, and digitally connected campus experience**.
+
+---
+
+## Future Improvements
+
+- Indoor navigation support
+- Real-time classroom availability
+- Event registration system
+- Mobile-optimized campus navigation
